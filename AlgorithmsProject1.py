@@ -8,6 +8,7 @@ Sedric, Khris, and Elijah.
 
 """
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~Khristion Pace Start~~~~~~~~~~~~~~~~~~~~~~~
 import os.path
 from os import path
 import random
@@ -54,6 +55,7 @@ def fastExpo(a, p, n):
             t = (a * t) % n
             p = p - 1
     return t
+#~~~~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~Sedric O'Donohue Start~~~~~~~~~~~~
 def multpInverse(a, m):
     
