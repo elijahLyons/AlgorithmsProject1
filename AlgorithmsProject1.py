@@ -4,7 +4,7 @@
 Software solution for implementing RSA encryption and digital signature system
 in Python.
 
-Cedric, Khris, and Elijah.
+Sedric, Khris, and Elijah.
 
 """
 
