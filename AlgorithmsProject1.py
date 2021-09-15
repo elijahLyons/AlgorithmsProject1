@@ -8,32 +8,36 @@ Sedric, Khris, and Elijah.
 
 """
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~Khristion Pace Start~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~Khristion Pace Start~~~~~~~~~~~~~~~
 import os.path
 from os import path
 import random
 
-
+# Encrypting algorithm
 def encrypt(e, n, message):
     cryptmessage = [fastExpo(ord(char), e, n) for char in message]
     return cryptmessage
 
+# Decrypting algorithm
 def decrypt(d, n, cmessage):
     message = [chr(fastExpo(char, d, n)) for char in cmessage]
     return ''.join(message)
 
+# GCD 
 def gcd(a = 1, b = 1):
     if b == 0:
         return a
     else:
         return gcd(b, a % b)
-    
+
+# Generating prime numbers between 100,000 and 1,000,000
 def generate_prime_num():
     p = random.randint(100000, 10000001)
     while not prime_check(p, 100):
         p = random.randint(100000, 10000001)
     return p
 
+# Using Fermats Theory (little) to see if the number is prime
 def prime_check(n, s):
     if n <= 1:
         return False
