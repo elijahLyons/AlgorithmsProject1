@@ -15,41 +15,41 @@ import random
 
 # Encrypting algorithm
 def encrypt(e, n, message):
-    cryptmessage = [fastExpo(ord(char), e, n) for char in message]
+    cryptmessage = [fastExp(ord(char), e, n) for char in message]
     return cryptmessage
 
 # Decrypting algorithm
 def decrypt(d, n, cmessage):
-    message = [chr(fastExpo(char, d, n)) for char in cmessage]
+    message = [chr(fastExp(char, d, n)) for char in cmessage]
     return ''.join(message)
 
 # GCD 
-def gcd(a = 1, b = 1):
+def gcd(a, b):
     if b == 0:
         return a
     else:
         return gcd(b, a % b)
 
 # Generating prime numbers between 100,000 and 1,000,000
-def generate_prime_num():
+def generatePrimeNumber():
     p = random.randint(100000, 10000001)
-    while not prime_check(p, 100):
+    while not checkPrime(p, 100):
         p = random.randint(100000, 10000001)
     return p
 
 # Using Fermats Theory (little) to see if the number is prime
-def prime_check(n, s):
+def checkPrime(n, s):
     if n <= 1:
         return False
     if n <= 3:
         return True
     for _ in range(s):
         a = random.randint(2, n - 1)
-        if fastExpo(a, n - 1, n) != 1:
+        if fastExp(a, n - 1, n) != 1:
             return False
         return True
     
-def fastExpo(a, p, n):
+def fastExp(a, p, n):
     t = 1
     while p > 0:
         if p % 2 == 0:
@@ -61,17 +61,26 @@ def fastExpo(a, p, n):
     return t
 #~~~~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~Sedric O'Donohue Start~~~~~~~~~~~~
-def multpInverse(a, m):
+
+#code found at https://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+#code found at https://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
+def multiplicativeInverse(a, m):
     
-   g, x, y = gcd(a,m)
+   g, x, y = egcd(a,m)
    if g != 1:
        raise Exception('modular inverse does not exist')
    else:
        return x % m
  
  
-def generate_keys(p = 7,q = 17):
-    n = p * q
+def generateKeys(p, q):
     
     fn = ((p-1) * (q-1))
     
@@ -80,24 +89,16 @@ def generate_keys(p = 7,q = 17):
     while gcd(e, fn) != 1: 
         e = random.randrange(1, fn)
        
-    d = multpInverse(e, fn)
+    d = multiplicativeInverse(e, fn)
     
-    pubk = open("public.key", "w+")
-    pubk.write("%d\n" % e)
-    pubk.write("%d\n" % n)
-    pubk.close();
-    pk = open("private.key", "w+")
-    pk.write("%d\n" % d)
-    pk.close();
-    
-    return (e, n, d)
+    return (e, d)
 
 def mainChoices():
-    print("\n----Main Menu----")
+    print("\n----Menu----")
     print("1) Encrypt or Decrypt a message.")
     print("2) Sign or verify a digital signature.")
-    print("3) To exit the program")
-    choice = input("Please enter 1, 2, or 3 to continue: ").upper()
+    print("3) Exit program.")
+    choice = input("Enter 1, 2, or 3: ").upper()
     
     while choice != "1" and choice != "2" and choice != "3":
         choice = input("Please enter 1, 2, or 3 to continue: ").upper()
@@ -107,84 +108,73 @@ def encryptChoices():
     print("\n---Encrypt a Message Choices---")
     print("4) Encrypt a message.")
     print("5) Decrypt a message.")
-    print("6) Back to Main Menu.")
-    choice = input("Pleaser enter 4, 5 or 6 to continue: ").upper()
+    print("6) Back.")
+    choice = input("Enter 4, 5 or 6: ").upper()
     
     while choice != "4" and choice != "5" and choice != "6":
-        choice = input("Please enter 4, 5 or 6 to continue: ").upper()
+        choice = input("Enter 4, 5 or 6 to continue: ").upper()
     
     return choice
 
 def signChoices():
-    print("\n---Document Signing Choices---")
-    print("4) Sign a document.")
+    print("\n---Digital Signature Choices---")
+    print("4) Create digital signature.")
     print("5) Verify a signature.")
     print("6) Back to Main Menu.")
-    choice = input("Pleaser enter 4, 5 or 6 to continue: ").upper()
+    choice = input("Enter 4, 5 or 6: ").upper()
     
     while choice != "4" and choice != "5" and choice != "6":
-        choice = input("Please enter 4, 5 or 6 to continue: ").upper()
+        choice = input("Enter 4, 5 or 6 to continue: ").upper()
     
     return choice
 
-def signDocument(d, n, e):
-    print("\n---Sign a document")
+def createSignature(d, n, e):
+    print("\n---Create a signature")
     s = input("Enter your signature: ")
-    sd = encrypt(d, n, s)
+    signature = encrypt(d, n, s)
     
-    print("Encypted Signature: ", ''.join(map(lambda x: str(x), sd)))
+    print("\nEncypted Signature: ", ''.join(map(lambda x: str(x), signature)))
     
-    with open('signature.crypt', 'w') as filehandle:
-        filehandle.writelines("%d\n" % char for char in sd)
-    
-    print("\n\nFollow the menu choices to decrypt the signature. Returning to main menu.")
+    print("Your signature has been encrypted. Navigate to 'verify' to verify the signature.")
+    return signature
    
     
-def verifySignature(e, n):
-    if path.isfile("signature.crypt"):
+def verifySignature(e, n, signature):
         print("\n---Verify a signature")
         
-        sd = []
-        with open('signature.crypt', 'r') as filehandle:
-            sd = [int(char.rstrip()) for char in filehandle.readlines()]
-        os.remove("signature.crypt")
-        
-        sig = decrypt(e, n, sd)
-        print("Decrypted Signature is: %s\n" % ''.join(sig))
-    else:
-        print("Sign a document first. Returning to main menu.")
+        if signature != 0:
+            dsig = decrypt(e, n, signature)
+            print("Decrypted Signature is: %s\n" % ''.join(dsig))
+        else:
+            print("\nNO DIGITAL SIGNATURES FOUND.")
         
 def encryptMessage(e, n, d):
     print("\n---Encrypt a message---")
-    m = input("Enter message to be encrypted: ")
-    cm = encrypt(e, n, m)
+    m = input("Enter message: ")
+    cmessage = encrypt(e, n, m)
     
-    print("Encrypted Message is: ", ''.join(map(lambda x: str(x), cm)))
+    print("\nEncrypted Message is: ", ''.join(map(lambda x: str(x), cmessage)))
    
     
-    with open('message.crypt', 'w') as filehandle:
-        filehandle.writelines("%d\n" % char for char in cm)
-    
-    print("\n\nFollow the menu choices to decrypt the message. Returning to main menu.")
+    print("Your message has been encrypted. Navigate to 'decrypt' to decrypt your message.")
+    return cmessage
  
     
-def decryptMessage(d, n):
-    if path.isfile("message.crypt"):
-        print("\n---Decrypt a message---")
-        
-        cm = []
-        with open('message.crypt', 'r') as filehandle:
-            cm = [int(char.rstrip()) for char in filehandle.readlines()]
-        os.remove("message.crypt")
-        
-        message = decrypt(d, n, cm)
-        print("Decrypted message: %s\n" % ''.join(message))
-        
-    else:
-        print("Encrypt a message first. Returnig to main menu.")
-        
+def decryptMessage(d, n, cmessage):
 
-def RSAmenu(e, n, d):
+        if cmessage != 0:
+            dmessage = decrypt(d, n, cmessage)
+            print("Decrypted message: %s\n" % ''.join(dmessage))
+        else:
+            print("\nNO ENCRYPTED MESSAGES FOUND")
+            
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Finish~~~~~~~~~~~~~~~ 
+        
+#~~~~~~~~~~~~~~~~~~~Elijah Lyons start~~~~~~~~~~~~~
+def RSAdashboard(e, n, d):
+    cmessage = 0
+    signature = 0
+    
     choice = mainChoices()
     
     while choice != "3":
@@ -193,18 +183,55 @@ def RSAmenu(e, n, d):
             choice = encryptChoices()
             
             if choice == "4":
-                encryptMessage(e, n, d)
+                if cmessage == 0:
+                    cmessage = encryptMessage(e, n, d)
+                else:
+                    print("\nDECRYPT YOUR MESSAGE BEFORE ENCRYPTING ANOTHER ONE")
             elif choice == "5":
-                decryptMessage(d, n)  
+                decryptMessage(d, n, cmessage) 
+                cmessage = 0
         elif choice == "2":
             choice = signChoices()
             
             if choice == "4":
-                signDocument(d, n, e)
+                if signature == 0:
+                    signature = createSignature(d, n, e)
+                else:
+                    print("\nVERIFY YOUR SIGNATURE BEFORE CREATING ANOTHER ONE")
             elif choice == "5":
-                verifySignature(e, n)
+                verifySignature(e, n, signature)
+                signature = 0
         elif choice == "6":
             choice = mainChoices() 
          
         choice = mainChoices()  
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Finish~~~~~~~~~~~~~~~            
+           
+
+
+def driver():
+    
+    print("\n-------------------------------------------------")
+    print("This program implements RSA encryption/decryption of text based messages,\nas well as signature creation and authentication.")
+    print("-------------------------------------------------\n")
+    
+    #generate large prime numbers
+    p = generatePrimeNumber()
+    q = generatePrimeNumber()
+    #calculate n
+    n = p * q
+    #generate public and private keys
+    (e, d) = generateKeys(p, q)
+    #RSAdashboard function responsible for front end of implementation.
+    RSAdashboard(e, n, d)
+    
+    
+    
+
+driver()
+    
+
+
+
+
+
+
