@@ -9,8 +9,6 @@ Sedric, Khris, and Elijah.
 """
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~Khristion Pace Start~~~~~~~~~~~~~~~
-import os.path
-from os import path
 import random
 
 # Encrypting algorithm
@@ -93,40 +91,28 @@ def generateKeys(p, q):
     
     return (e, d)
 
-def mainChoices():
+def mainChoicesPublic():
     print("\n----Menu----")
-    print("1) Encrypt or Decrypt a message.")
-    print("2) Sign or verify a digital signature.")
+    print("1) Encrypt a ciphered message.")
+    print("2) Create a digital signature.")
     print("3) Exit program.")
     choice = input("Enter 1, 2, or 3: ").upper()
     
     while choice != "1" and choice != "2" and choice != "3":
         choice = input("Please enter 1, 2, or 3 to continue: ").upper()
     return choice
+
+def mainChoicesOwner():
+    print("\n----Menu----")
+    print("1) Decrypt a message.")
+    print("2) Verify a digital signature.")
+    print("3) Exit program.")
+    choice = input("Enter 1, 2, or 3: ").upper()
     
-def encryptChoices():
-    print("\n---Encrypt a Message Choices---")
-    print("4) Encrypt a message.")
-    print("5) Decrypt a message.")
-    print("6) Back.")
-    choice = input("Enter 4, 5 or 6: ").upper()
-    
-    while choice != "4" and choice != "5" and choice != "6":
-        choice = input("Enter 4, 5 or 6 to continue: ").upper()
-    
+    while choice != "1" and choice != "2" and choice != "3":
+        choice = input("Please enter 1, 2, or 3 to continue: ").upper()
     return choice
 
-def signChoices():
-    print("\n---Digital Signature Choices---")
-    print("4) Create digital signature.")
-    print("5) Verify a signature.")
-    print("6) Back to Main Menu.")
-    choice = input("Enter 4, 5 or 6: ").upper()
-    
-    while choice != "4" and choice != "5" and choice != "6":
-        choice = input("Enter 4, 5 or 6 to continue: ").upper()
-    
-    return choice
 
 def createSignature(d, n, e):
     print("\n---Create a signature")
@@ -135,7 +121,7 @@ def createSignature(d, n, e):
     
     print("\nEncypted Signature: ", ''.join(map(lambda x: str(x), signature)))
     
-    print("Your signature has been encrypted. Navigate to 'verify' to verify the signature.")
+    print("\nYour signature has been encrypted. The owner must now verify your signature.\n")
     return signature
    
     
@@ -156,7 +142,7 @@ def encryptMessage(e, n, d):
     print("\nEncrypted Message is: ", ''.join(map(lambda x: str(x), cmessage)))
    
     
-    print("Your message has been encrypted. Navigate to 'decrypt' to decrypt your message.")
+    print("\nYour message has been encrypted. The owner must now decrypt your ciphered message.\n")
     return cmessage
  
     
@@ -171,48 +157,51 @@ def decryptMessage(d, n, cmessage):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Finish~~~~~~~~~~~~~~~ 
         
 #~~~~~~~~~~~~~~~~~~~Elijah Lyons start~~~~~~~~~~~~~
+
 def RSAdashboard(e, n, d):
     cmessage = 0
     signature = 0
+    choice = " "
     
-    choice = mainChoices()
-    
-    while choice != "3":
+    while (choice != "3"):
         
-        if choice == "1":
-            choice = encryptChoices()
-            
-            if choice == "4":
+        while (choice != "P" and choice != "O" and choice != "3"):
+            print("Are you a public user or the owner of the keys(P/O)?: ")
+            choice = input().upper()
+        
+        if (choice == "P"):
+            choice = mainChoicesPublic()
+            if (choice == "1"):
                 if cmessage == 0:
                     cmessage = encryptMessage(e, n, d)
                 else:
-                    print("\nDECRYPT YOUR MESSAGE BEFORE ENCRYPTING ANOTHER ONE")
-            elif choice == "5":
-                decryptMessage(d, n, cmessage) 
-                cmessage = 0
-        elif choice == "2":
-            choice = signChoices()
-            
-            if choice == "4":
+                    print("\nYOUR MESSAGE HASN'T BEEN RECIEVED YET.")
+            elif choice == "2":
                 if signature == 0:
                     signature = createSignature(d, n, e)
                 else:
-                    print("\nVERIFY YOUR SIGNATURE BEFORE CREATING ANOTHER ONE")
-            elif choice == "5":
+                    print("\nYOUR SIGNATURE HASN'T BEEN VERIFIED YET")
+        elif (choice == "O"):
+            choice = mainChoicesOwner()
+            if (choice == "1"):
+                decryptMessage(d, n, cmessage)
+                cmessage = 0
+            elif (choice == "2"):
                 verifySignature(e, n, signature)
                 signature = 0
-        elif choice == "6":
-            choice = mainChoices() 
-         
-        choice = mainChoices()  
+            
+                                
+                                    
+        
            
 
 
 def driver():
     
-    print("\n-------------------------------------------------")
+    print("\n--------------------------------------------------------------------")
     print("This program implements RSA encryption/decryption of text based messages,\nas well as signature creation and authentication.")
-    print("-------------------------------------------------\n")
+    print("\nTo exit the program, simply enter the number '3'")
+    print("----------------------------------------------------------------------\n")
     
     #generate large prime numbers
     p = generatePrimeNumber()
