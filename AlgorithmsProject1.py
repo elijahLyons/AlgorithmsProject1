@@ -93,14 +93,20 @@ def generateKeys(p, q):
 
 def mainChoicesPublic():
     print("\n----Menu----")
+<<<<<<< HEAD
     print("1) Encrypt a ciphered message.")
     print("2) Create a digital signature.")
+=======
+    print("1) Encrypt or Decrypt message.")
+    print("2) Sign or verify digital signature.")
+>>>>>>> 29fda1d3a930fa5eff0e578de47fbc1d7079819d
     print("3) Exit program.")
     choice = input("Enter 1, 2, or 3: ").upper()
     
     while choice != "1" and choice != "2" and choice != "3":
         choice = input("Please enter 1, 2, or 3 to continue: ").upper()
     return choice
+<<<<<<< HEAD
 
 def mainChoicesOwner():
     print("\n----Menu----")
@@ -108,6 +114,30 @@ def mainChoicesOwner():
     print("2) Verify a digital signature.")
     print("3) Exit program.")
     choice = input("Enter 1, 2, or 3: ").upper()
+=======
+    
+def encryptChoices():
+    print("\n---Encrypt Message Choices---")
+    print("4) Encrypt message.")
+    print("5) Decrypt message.")
+    print("6) Back.")
+    choice = input("Enter 4, 5 or 6: ").upper()
+    
+    while choice != "4" and choice != "5" and choice != "6":
+        choice = input("Enter 4, 5 or 6 to continue: ").upper()
+    
+    return choice
+
+def signChoices():
+    print("\n---Digital Signature Choices---")
+    print("4) Create digital signature.")
+    print("5) Verify digital signature.")
+    print("6) Back to Main Menu.")
+    choice = input("Enter 4, 5 or 6: ").upper()
+    
+    while choice != "4" and choice != "5" and choice != "6":
+        choice = input("Enter 4, 5 or 6 to continue: ").upper()
+>>>>>>> 29fda1d3a930fa5eff0e578de47fbc1d7079819d
     
     while choice != "1" and choice != "2" and choice != "3":
         choice = input("Please enter 1, 2, or 3 to continue: ").upper()
@@ -115,7 +145,7 @@ def mainChoicesOwner():
 
 
 def createSignature(d, n, e):
-    print("\n---Create a signature")
+    print("\n---Create signature")
     s = input("Enter your signature: ")
     signature = encrypt(d, n, s)
     
@@ -126,7 +156,7 @@ def createSignature(d, n, e):
    
     
 def verifySignature(e, n, signature):
-        print("\n---Verify a signature")
+        print("\n---Verify signature")
         
         if signature != 0:
             dsig = decrypt(e, n, signature)
@@ -135,14 +165,18 @@ def verifySignature(e, n, signature):
             print("\nNO DIGITAL SIGNATURES FOUND.")
         
 def encryptMessage(e, n, d):
-    print("\n---Encrypt a message---")
+    print("\n---Encrypt message---")
     m = input("Enter message: ")
     cmessage = encrypt(e, n, m)
     
     print("\nEncrypted Message is: ", ''.join(map(lambda x: str(x), cmessage)))
    
     
+<<<<<<< HEAD
     print("\nYour message has been encrypted. The owner must now decrypt your ciphered message.\n")
+=======
+    print("The message has been encrypted. Navigate to 'decrypt' to decrypt your message.")
+>>>>>>> 29fda1d3a930fa5eff0e578de47fbc1d7079819d
     return cmessage
  
     
