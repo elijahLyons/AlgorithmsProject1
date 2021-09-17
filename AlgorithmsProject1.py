@@ -9,8 +9,6 @@ Sedric, Khris, and Elijah.
 """
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~Khristion Pace Start~~~~~~~~~~~~~~~
-import os.path
-from os import path
 import random
 
 # Encrypting algorithm
@@ -95,8 +93,8 @@ def generateKeys(p, q):
 
 def mainChoices():
     print("\n----Menu----")
-    print("1) Encrypt or Decrypt a message.")
-    print("2) Sign or verify a digital signature.")
+    print("1) Encrypt or Decrypt message.")
+    print("2) Sign or verify digital signature.")
     print("3) Exit program.")
     choice = input("Enter 1, 2, or 3: ").upper()
     
@@ -105,9 +103,9 @@ def mainChoices():
     return choice
     
 def encryptChoices():
-    print("\n---Encrypt a Message Choices---")
-    print("4) Encrypt a message.")
-    print("5) Decrypt a message.")
+    print("\n---Encrypt Message Choices---")
+    print("4) Encrypt message.")
+    print("5) Decrypt message.")
     print("6) Back.")
     choice = input("Enter 4, 5 or 6: ").upper()
     
@@ -119,7 +117,7 @@ def encryptChoices():
 def signChoices():
     print("\n---Digital Signature Choices---")
     print("4) Create digital signature.")
-    print("5) Verify a signature.")
+    print("5) Verify digital signature.")
     print("6) Back to Main Menu.")
     choice = input("Enter 4, 5 or 6: ").upper()
     
@@ -129,7 +127,7 @@ def signChoices():
     return choice
 
 def createSignature(d, n, e):
-    print("\n---Create a signature")
+    print("\n---Create signature")
     s = input("Enter your signature: ")
     signature = encrypt(d, n, s)
     
@@ -140,7 +138,7 @@ def createSignature(d, n, e):
    
     
 def verifySignature(e, n, signature):
-        print("\n---Verify a signature")
+        print("\n---Verify signature")
         
         if signature != 0:
             dsig = decrypt(e, n, signature)
@@ -149,14 +147,14 @@ def verifySignature(e, n, signature):
             print("\nNO DIGITAL SIGNATURES FOUND.")
         
 def encryptMessage(e, n, d):
-    print("\n---Encrypt a message---")
+    print("\n---Encrypt message---")
     m = input("Enter message: ")
     cmessage = encrypt(e, n, m)
     
     print("\nEncrypted Message is: ", ''.join(map(lambda x: str(x), cmessage)))
    
     
-    print("Your message has been encrypted. Navigate to 'decrypt' to decrypt your message.")
+    print("The message has been encrypted. Navigate to 'decrypt' to decrypt your message.")
     return cmessage
  
     
