@@ -92,7 +92,7 @@ def generateKeys(p, q):
     return (e, d)
 
 def mainChoicesPublic():
-    print("\n----Menu----")
+    print("\n----Public Menu----")
 
     print("1) Encrypt a message.")
     print("2) Create a digital signature.")
@@ -105,7 +105,7 @@ def mainChoicesPublic():
     return choice
 
 def mainChoicesOwner():
-    print("\n----Menu----")
+    print("\n----Owner Menu----")
     print("1) Decrypt a message.")
     print("2) Verify a digital signature.")
     print("3) Exit program.")
@@ -118,7 +118,7 @@ def mainChoicesOwner():
 
 
 def createSignature(d, n, e):
-    print("\n---Create signature")
+    print("\n---Create signature---")
     s = input("Enter your signature: ")
     signature = encrypt(d, n, s)
     
@@ -129,7 +129,7 @@ def createSignature(d, n, e):
    
     
 def verifySignature(e, n, signature):
-        print("\n---Verify signature")
+        print("\n---Verify signature---")
         
         if signature != 0:
             dsig = decrypt(e, n, signature)
