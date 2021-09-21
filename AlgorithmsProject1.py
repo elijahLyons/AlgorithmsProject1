@@ -11,15 +11,18 @@ Sedric, Khris, and Elijah.
 #~~~~~~~~~~~~~~~~~~~~~~~~~Khristion Pace Start~~~~~~~~~~~~~~~
 import random
 
+
 # Encrypting algorithm
 def encrypt(e, n, message):
     cryptmessage = [fastExp(ord(char), e, n) for char in message]
     return cryptmessage
 
+
 # Decrypting algorithm
 def decrypt(d, n, cmessage):
     message = [chr(fastExp(char, d, n)) for char in cmessage]
     return ''.join(message)
+
 
 # GCD 
 def gcd(a, b):
@@ -28,12 +31,14 @@ def gcd(a, b):
     else:
         return gcd(b, a % b)
 
+
 # Generating prime numbers between 100,000 and 1,000,000
 def generatePrimeNumber():
     p = random.randint(100000, 10000001)
     while not checkPrime(p, 100):
         p = random.randint(100000, 10000001)
     return p
+
 
 # Using Fermats Theory (little) to see if the number is prime
 def checkPrime(n, s):
@@ -47,6 +52,7 @@ def checkPrime(n, s):
             return False
         return True
     
+    
 def fastExp(a, p, n):
     t = 1
     while p > 0:
@@ -57,6 +63,7 @@ def fastExp(a, p, n):
             t = (a * t) % n
             p = p - 1
     return t
+
 #~~~~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~Sedric O'Donohue Start~~~~~~~~~~~~
 
@@ -90,18 +97,18 @@ def generateKeys(p, q):
     
     return (e, d)
 
+
 def mainChoicesPublic():
     print("\n----Public Menu----")
-
     print("1) Encrypt a message.")
     print("2) Create a digital signature.")
-
     print("3) Exit program.")
     choice = input("Enter 1, 2, or 3: ").upper()
     
     while choice != "1" and choice != "2" and choice != "3":
         choice = input("Please enter 1, 2, or 3 to continue: ").upper()
     return choice
+
 
 def mainChoicesOwner():
     print("\n----Owner Menu----")
@@ -136,6 +143,7 @@ def verifySignature(e, n, signature):
         else:
             print("NO DIGITAL SIGNATURES FOUND.\n")
         
+        
 def encryptMessage(e, n, d):
     print("\n---Encrypt message---")
     m = input("Enter message: ")
@@ -143,15 +151,11 @@ def encryptMessage(e, n, d):
     
     print("\nEncrypted Message is: ", ''.join(map(lambda x: str(x), cmessage)))
    
-    
-
     print("\nYour message has been encrypted. The owner must now decrypt your ciphered message.\n")
-
     return cmessage
  
     
 def decryptMessage(d, n, cmessage):
-
         if cmessage != 0:
             dmessage = decrypt(d, n, cmessage)
             print("Decrypted message: %s\n" % ''.join(dmessage))
@@ -222,9 +226,3 @@ def driver():
 
 driver()
     
-
-
-
-
-
-
