@@ -60,7 +60,6 @@ def fastExp(a, p, n):
 #~~~~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~Sedric O'Donohue Start~~~~~~~~~~~~
 
-#code found at https://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
 def egcd(a, b):
     if a == 0:
         return (b, 0, 1)
@@ -68,7 +67,7 @@ def egcd(a, b):
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
 
-#code found at https://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
+
 def multiplicativeInverse(a, m):
     
    g, x, y = egcd(a,m)
